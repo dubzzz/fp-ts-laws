@@ -6,7 +6,7 @@ import { Either, left, right } from 'fp-ts/lib/Either'
  * @since 0.0.2
  */
 export function getEithers<L, A>(leftArb: fc.Arbitrary<L>, rightArb: fc.Arbitrary<A>): fc.Arbitrary<Either<L, A>> {
-  return fc.tuple(leftArb, rightArb).chain(([l, a]) => fc.boolean().map(b => (b ? right(a) : left(l))))
+  return fc.oneof(leftArb.map(a => left(a)), rightArb.map(a => right(a)))
 }
 
 /**
