@@ -6,7 +6,7 @@ import { none, Option, some } from 'fp-ts/lib/Option'
  * @since 0.0.2
  */
 export function getOptions<A>(arb: fc.Arbitrary<A>): fc.Arbitrary<Option<A>> {
-  return arb.chain(a => fc.boolean().map(b => (b ? some(a) : none)))
+  return fc.oneof(arb.map(a => some(a)), fc.constant(none))
 }
 
 /**
